@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,17 +20,17 @@
 </head>
 <body>
 <!--최상단/메뉴-->
-  <%@ include file="./top.jsp" %>
+  <cr:import url="./top.jsp"></cr:import>
   <!--최상단/메뉴 끝-->
 <main>
 <!-- 로그인 창 -->
-<%@ include file="./login_view.jsp" %>
+<cr:import url="./login_view.jsp"></cr:import>
 <!-- 로그인 창 끝 -->
 </main>
 
  <!-- 카피라이터 -->
  <footer>
-<%@ include file="./copyright.jsp" %>
+<cr:import url="./copyright.jsp"></cr:import>
  </footer>
  <!-- 카피라이터 끝 -->
 </body>

@@ -138,7 +138,11 @@ main > section:nth-of-type(4) {
   width: 200px;
   text-align: left;
 }
-.menus_ul > li:nth-of-type(1) > img{
+.menus_ul > li:nth-of-type(1) > a {
+  display: block;
+  height: 100%;
+}
+.menus_ul > li:nth-of-type(1) > a > img{
   height: inherit;
   object-fit:contain;
 }
@@ -155,7 +159,11 @@ main > section:nth-of-type(4) {
   position: relative;
   text-align: center;
 }
-.logins > span > img{
+.logins > span > a {
+  display: inline-block;
+  vertical-align: middle; /* 혹은 top */
+}
+.logins > span > a > img{
   width: 24px;
   height: 24px;
   position: absolute;

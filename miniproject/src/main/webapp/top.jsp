@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <link rel="stylesheet" type="text/css" href="./css/index.css?v=7">
+    <link rel="stylesheet" type="text/css" href="./css/index.css?v=8">
 <!--최상단-->
  <header>
   <div class="top_banner"></div>
@@ -10,7 +10,7 @@
  <nav>
   <div class="menus">
     <ul class="menus_ul">
-      <li><img src="./logo/e_click_logo.png"></li>
+      <li><a href="./index.do"><img src="./logo/e_click_logo.png"></a></li>
       <li>일반매물</li>
       <li>추천매물</li>
       <li>중계의뢰</li>
@@ -21,8 +21,9 @@
         <!--
         홍길동님 환영합니다.[로그아웃]
         -->
-        <span title="로그인"><img src="./ico/login.svg"></span>
-        <span title="회원가입"><img src="./ico/membership.svg"></span>
+        
+        <span title="로그인"><a href="./login.do"><img src="./ico/login.svg"></a></span>
+        <span title="회원가입"><a href=""><img src="./ico/membership.svg"></a></span>
       </li>
     </ul>
   </div>
