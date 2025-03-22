@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- SQL문법에 대한 파일(mapper) -->
+<mapper namespace="miniproject.index_mapper">
+<!-- 
+resultType : config.xml에서 세팅된 alias를 이용하여 Model DTO에 이관 
+-->
+<select id="weekinfo_select" resultType="weekinfodto">
+select * from week_info order by aidx asc
+</select>
+
+<select id="mdchoice_select" resultType="mdchoicedto">
+select * from md_choice order by aidx asc
+</select>
+
+<select id="copyright_select" resultType="copyrightdto">
+select * from web_info order by aidx asc
+</select>
+
+ 
+</mapper>
