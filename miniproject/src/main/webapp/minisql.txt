@@ -66,3 +66,29 @@ create table  web_info (
 );
 
 insert into web_info values('0','e-Click 주식회사','홍길동','서울시 마포구 중앙빌딩 4F 402호','211-80-12334','2023-서울마포-3362호','윤하빈','02-221-2668','02-550-5591');
+
+
+
+
+
+
+회원가입 정보
+create table m_join(
+	aidx int unsigned auto_increment comment '기본 키(자동 증가)',
+	email varchar(100) not null comment '이메일 주소',
+	pw char(200) not null comment '비밀번호',
+	pw_ok char(200) not null comment '비밀번호 확인',
+	mem_nm char(40) not null comment '이름',
+	tel char(11) not null comment '휴대폰 번호',
+	agree_all enum('Y','N') default 'N' comment '전체 동의 여부',
+    agree_14 enum('Y','N') default 'N' comment '만 14세 이상',
+    agree_terms enum('Y','N') default 'N' comment '이용약관 동의',
+    agree_privacy enum('Y','N') default 'N' comment '개인정보 수집 동의',
+    agree_marketing enum('Y','N') default 'N' comment '마케팅 수신 동의',
+    join_date timestamp null default current_timestamp comment '가입일자',
+	primary key(aidx),
+	unique(email),
+	unique(tel)
+);
+
+drop table m_join

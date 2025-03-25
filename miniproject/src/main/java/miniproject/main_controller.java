@@ -1,20 +1,12 @@
 package miniproject;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.ibatis.reflection.SystemMetaObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import com.mysql.cj.xdevapi.Result;
 
 @Controller
 public class main_controller {
@@ -42,9 +34,50 @@ public class main_controller {
 	public String login(Model m) {
 	    List<copyright_DTO> cpList = this.index_DAO.copyright_select();
 	    m.addAttribute("cpList", cpList); // copyright.jsp에서 사용하는 변수명 그대로
+	    
 	    return "login"; // login.jsp
 	}
-
-
 	
+	
+	@GetMapping("/member_join.do")
+	public String join(Model m) {
+		List<copyright_DTO> cpList = this.index_DAO.copyright_select();
+	    m.addAttribute("cpList", cpList); // copyright.jsp에서 사용하는 변수명 그대로
+	    
+	    return "member_join"; // member_join.jsp
+	}
+	
+	
+	@GetMapping("/email_search.do")
+	public String search(Model m) {
+	    List<copyright_DTO> cpList = this.index_DAO.copyright_select();
+	    m.addAttribute("cpList", cpList); // copyright.jsp에서 사용하는 변수명 그대로
+	    
+	    return "email_search"; // email_search.jsp
+	}
+	@GetMapping("search_myinfo.do")
+	public String search_myinfo(Model m) {
+	    List<copyright_DTO> cpList = this.index_DAO.copyright_select();
+	    m.addAttribute("cpList", cpList); // copyright.jsp에서 사용하는 변수명 그대로
+	    
+	    return "/WEB-INF/info/search_myinfo"; // search_myinfo.jsp
+	}
+	
+	@GetMapping("/passwd_search.do")
+	public String passwd_search(Model m) {
+	    List<copyright_DTO> cpList = this.index_DAO.copyright_select();
+	    m.addAttribute("cpList", cpList); // copyright.jsp에서 사용하는 변수명 그대로
+	    
+	    return "passwd_search"; // email_search.jsp
+	}
+	/*
+	@GetMapping("/search_mypass.do")
+	public String search_mypass(Model m) {
+	    List<copyright_DTO> cpList = this.index_DAO.copyright_select();
+	    m.addAttribute("cpList", cpList); // copyright.jsp에서 사용하는 변수명 그대로
+	    
+	    return "search_mypass"; // email_search.jsp
+	}
+	*/
+
 }

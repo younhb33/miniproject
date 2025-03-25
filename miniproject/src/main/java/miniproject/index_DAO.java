@@ -8,7 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository("index_DAO")
-public class index_DAO {
+public class index_DAO  {
 	
 	@Resource(name = "template")
 	private SqlSessionTemplate template;
@@ -30,5 +30,7 @@ public class index_DAO {
 		
 		return cpList;
 	}
+	
+	
 	
 }

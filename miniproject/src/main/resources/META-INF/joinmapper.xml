@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="miniproject.join_mapper">
+<!-- 회원가입 정보 -->
+<insert id="join_insert">
+insert into m_join(aidx,email,pw,mem_nm,tel,agree_all,agree_14,agree_terms,agree_privacy,agree_marketing,join_date)
+values ('0',#{email},#{pw},#{mem_nm},#{tel},#{agree_all},#{agree_14},#{agree_terms},#{agree_privacy}, #{agree_marketing},now())
+</insert>
+
+  <!-- 이메일 중복 체크 -->
+<select id="check_email" resultType="int">
+select count(*) from m_join where email= #{email}
+</select>
+
+<!-- login -->
+<select id="login_select" resultType="joindto">
+select * from m_join where email=#{email} and pw=#{pw}
+</select>
+
+
+<!-- 이메일 찾기 -->
+<select id="m_search_select" resultType="joindto" parameterType="Map">
+select email from m_join where mem_nm= #{mem_nm} and tel= #{tel}
+</select>
+
+<!-- 비밀번호 찾기 -->
+<select id="pw_select" resultType="joindto" parameterType="Map">
+select * from m_join where email = #{email} and tel = #{tel}
+</select>
+
+<!-- 비밀번호 변경 -->
+<update id="pw_update" parameterType="Map">
+update m_join set pw=#{pw} where email=#{email}
+</update>
+
+</mapper>

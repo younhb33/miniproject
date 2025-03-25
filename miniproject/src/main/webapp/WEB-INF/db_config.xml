@@ -32,7 +32,16 @@
 <bean id="sqlfact" class="org.mybatis.spring.SqlSessionFactoryBean">
 <property name="dataSource" ref="dbinfo"/>
 <property name="configLocation" value="classpath:/META-INF/config.xml"/>
-<property name="mapperLocations" value="classpath:/META-INF/mapper.xml"/>
+
+<property name="mapperLocations">
+		<array>
+			<value>classpath:/META-INF/mapper.xml</value>
+			<value>classpath:/META-INF/joinmapper.xml</value>
+		</array>
+</property>
+
+
+
 </bean>
 
 <!-- Mybatis Template(interface) > (template: update된 mybatis) -->
