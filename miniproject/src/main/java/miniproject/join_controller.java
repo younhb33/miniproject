@@ -51,8 +51,9 @@ public class join_controller  {
 				msg = "alert('회원가입이 정상적으로 완료되었습니다.');"
 						+ "location.href='./login.do';";	
 			}m.addAttribute("msg", msg);
-		
-		
+			System.out.println("1. 회원가입 평문 비밀번호 : "+ dto.getPw());
+			System.out.println("2. 비밀번호 평문 : " + m_pw);
+			System.out.println("3. 비밀번호 암호화 후 : "+ md_pw);
 			return "load";
 		
 	}
@@ -157,12 +158,17 @@ public class join_controller  {
 	//비밀번호 변경
 	@PostMapping("/update_pw.do")
 	public String update_pw(String pw, String email, Model m) throws Exception {
+		System.out.println("🔐 [디버깅] 사용자 입력 평문 비밀번호: " + pw);
+	    System.out.println("📧 [디버깅] 사용자 이메일: " + email);
+		
 		//비밀번호 암호화
 		m_md5 md5 = new m_md5();
 		String enc_pw = md5.md5_code(pw);
+		System.out.println("🔒 [디버깅] 암호화된 비밀번호: " + enc_pw);
 		
 		//DAO호출 /DB업데이트
 		int result = this.dao.pw_update(enc_pw, email);
+		System.out.println("✅ [디버깅] DB 업데이트 결과: " + result);
 		
 		String msg="";
 		if(result > 0) {

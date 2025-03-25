@@ -54,11 +54,12 @@ function pw_update(email) {
 	var area = document.getElementById("pw_area");
 	area.innerHTML = `
 		<form id="hide_f" method="post" action="./update_pw.do">
-	      <input type="hidden" name="email" value="${email}">
-	      <input type="hidden" name="pw" value="${pw1.value}">
+	      <input type="hidden" name="email" value="` + email+ `">
+	      <input type="hidden" name="pw" value="`+ pw1.value +`">
 	    </form>
 		`;
-		
+		console.log("👉 암호화 전 비밀번호:", pw1.value);
+		console.log("👉 hidden email 값:", email);
 	document.getElementById("hide_f").submit();
 	}
 	
