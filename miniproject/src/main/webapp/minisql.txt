@@ -91,4 +91,21 @@ create table m_join(
 	unique(tel)
 );
 
-drop table m_join
+drop table m_join;
+
+
+상담 신청 테이블
+
+create table meeting(
+	midx int unsigned auto_increment comment '기본 키(자동 증가)',
+	mname char(40) not null comment '상담자명',
+	memail varchar(100) not null comment '이메일',
+	mtel char(11) not null comment '연락처',
+	rent_type varchar(200) not null comment '임대형태',
+	house_type varchar(200) not null comment '주거형태',
+	meeting_date char(50) not null comment '상담일시',
+	mcontent text not null comment '상담내용',
+	add_date timestamp not null default current_timestamp comment '신청날짜'	
+);
+   
+

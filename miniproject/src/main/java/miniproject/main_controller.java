@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class main_controller {
@@ -79,5 +80,13 @@ public class main_controller {
 	    return "search_mypass"; // email_search.jsp
 	}
 	*/
-
+	/*
+	@GetMapping("/counsel.do")
+	public String counsel(Model m) {
+		List<copyright_DTO> cpList = this.index_DAO.copyright_select();
+	    m.addAttribute("cpList", cpList); // copyright.jsp에서 사용하는 변수명 그대로
+	    
+	    return "counsel";
+	}
+	*/
 }
