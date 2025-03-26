@@ -69,7 +69,7 @@ public class main_controller {
 	    List<copyright_DTO> cpList = this.index_DAO.copyright_select();
 	    m.addAttribute("cpList", cpList); // copyright.jsp에서 사용하는 변수명 그대로
 	    
-	    return "passwd_search"; // email_search.jsp
+	    return "passwd_search"; 
 	}
 	/*
 	@GetMapping("/search_mypass.do")
