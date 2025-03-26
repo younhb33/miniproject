@@ -2,11 +2,11 @@
 function meetok() {
 
     if (countCheck("rent_type") < 1) {
-        alert("임대형태를 최소 1개 체크해주세요.");
+        alert("임대형태를 최소 1개 체크해주셔야 합니다.");
     } else if (countCheck("house_type") < 1) {
-        alert("주거형태를 최소 1개 체크해주세요.");
+        alert("주거형태를 최소 1개 체크해주셔야 합니다.");
     } else if (frm.meeting_date.value == "") {
-        alert("날짜를 선택하세요.");
+        alert("날짜를 선택해주세요.");
     } else {
         var sel = new Date(frm.meeting_date.value);
         var now = new Date();
