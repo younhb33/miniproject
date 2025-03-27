@@ -1,3 +1,4 @@
+매물 정보 테이블
 create table week_info(
 aidx int unsigned auto_increment comment '기본 키(자동 증가)', 
 apart_nm varchar(200) not null comment '아파트명', 
@@ -16,6 +17,9 @@ data_date timestamp null default current_timestamp comment '설정 수정일',
 primary key(aidx)
 );
 
+===========================
+매물 정보 리스트 데이터
+
 drop table week_data;
 
 insert into week_info values('0','LH센트럴힐(공공임대)','서울시 송파구 문정동 12-2','아파트','공공임대','2025.04 분양','2027.02 입주','room1.jpg','개별난방,도시가스','1670','14','GS건설㈜','오픈',now());
@@ -27,8 +31,8 @@ insert into week_info values('0','제일풍경채검단IV(AA22)','세종특별�
 insert into week_info values('0','소사역롯세캐슬더뉴엘','부천시 소사본동 2가 23','아파트','민간분양','2025.10 분양','2027.03 입주','room7.jpg','지역난방,열병합','1200','11','(주)세담종합건설','접수',now());
 insert into week_info values('0','삼익더랩소디','서울시 강서구 내발산동 3-2','아파트','공공임대','2025.04 분양','2026.12 입주','room8.jpg','개별난방,도시가스','800','7','현대엔지니어링(주)','오픈',now());
 
-
-
+===========================
+추천 아파트 기사
 
 create table md_choice (
     aidx int unsigned auto_increment comment '기본 키(자동 증가)', 
@@ -50,7 +54,8 @@ insert into md_choice values('0','서산 첫 아이파크<br>‘서산 센트럴
 
 
 
-
+===========================
+카피라이트
 
 create table  web_info (
     aidx int unsigned auto_increment comment '기본 키(자동 증가)',
@@ -70,7 +75,7 @@ insert into web_info values('0','e-Click 주식회사','홍길동','서울시 �
 
 
 
-
+===========================
 
 회원가입 정보
 create table m_join(
@@ -93,7 +98,7 @@ create table m_join(
 
 drop table m_join;
 
-
+===========================
 상담 신청 테이블
 
 create table meeting(
@@ -109,4 +114,4 @@ create table meeting(
 	primary key(midx)
 );
    
-
+===========================
