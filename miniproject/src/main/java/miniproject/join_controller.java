@@ -72,9 +72,9 @@ public class join_controller  {
 	    int result = this.dao.check_email(email);
 	    try {
 	    	if (result > 0) {
-	            pw.write("no");
+	            pw.write("no"); //중복
 	        } else {
-	            pw.write("ok");
+	            pw.write("ok"); //사용
 	        }
 		} catch (Exception e) {
 			pw.write("error!!");
@@ -89,7 +89,7 @@ public class join_controller  {
 	@PostMapping("/loginok.do")
 	public String loginok(join_DTO dto, Model m, HttpServletRequest request)throws Exception {
 		String msg = "";
-				
+		//비밀번호 공백처리		
 		if(dto.getPw() == null || dto.getPw().isEmpty()) {
 			msg = "alert('비밀번호가 비어있습니다.');"
 					+ "history.go(-1);";
@@ -98,11 +98,13 @@ public class join_controller  {
 		}
 		//비밀번호가 null이 아니면 md5 암호화
 		dto.setPw(new m_md5().md5_code(dto.getPw()));
+		//로그인 정보 조회
 		join_DTO sel_dto = this.dao.login_select(dto);
 		if(sel_dto == null) {
 			msg = "alert('아이디 또는 패스워드를 다시 확인해주세요');"
 					+ "history.go(-1)";
 		}else {
+			//로그인 성공시 세션에 저장
 			HttpSession session = request.getSession();
 			session.setAttribute("dto", sel_dto);
 			
@@ -123,6 +125,8 @@ public class join_controller  {
 	@PostMapping("/msearch_ok.do")
 	public String msearch_ok(join_DTO dto, Model m) throws Exception{
 		join_DTO data = this.dao.m_search_select(dto.mem_nm, dto.tel);
+		
+		//하단 copyright정보
 		List<copyright_DTO> cpList = this.index_DAO.copyright_select();
 	    m.addAttribute("cpList", cpList);  // copyright.jsp에서 사용
 		
@@ -144,9 +148,11 @@ public class join_controller  {
 	@PostMapping("/psearch_ok.do")
 	public String psearch_ok(join_DTO dto, Model m) {
 		join_DTO result = this.dao.pw_select(dto.email, dto.tel);
+		//하단 copyright 정보
 		List<copyright_DTO> cpList = this.index_DAO.copyright_select();
 	    m.addAttribute("cpList", cpList);  // copyright.jsp에서 사용
-		System.out.println("입력 이메일 : "+ dto.getEmail());
+		
+	    System.out.println("입력 이메일 : "+ dto.getEmail());
 		System.out.println("입력 전화번호 : " + dto.getTel());
 		String msg = "";
 		
@@ -156,9 +162,7 @@ public class join_controller  {
 			m.addAttribute("msg", msg);
 			return "load";
 		}else {
-			
 			m.addAttribute("email", result.getEmail());
-			
 		}
 		return "/WEB-INF/info/search_mypass";
 	}
@@ -167,7 +171,7 @@ public class join_controller  {
 	//비밀번호 변경
 	@PostMapping("/update_pw.do")
 	public String update_pw(String pw, String email, Model m) throws Exception {
-		System.out.println("🔐 [디버깅] 사용자 입력 평문 비밀번호: " + pw);
+		System.out.println("🔐 [디버깅] 사용자 입력 평문 비밀번호: " + pw); //암호화
 	    System.out.println("📧 [디버깅] 사용자 이메일: " + email);
 		
 		//비밀번호 암호화
@@ -190,22 +194,39 @@ public class join_controller  {
 		m.addAttribute("msg", msg);
 		return "load";
 	}
-	//상담신청 창 카피라이트 출력
+	//상담신청 페이지 진입 핸들링(세션/로그인상태)확인 포함
 	@GetMapping("/counsel.do")
 	public String counsel(HttpServletRequest request, Model m) {
+		//카피라이트 세팅
 		List<copyright_DTO> cpList = this.index_DAO.copyright_select();
 	    m.addAttribute("cpList", cpList);  // copyright.jsp에서 사용
-		HttpSession session = request.getSession();
-	    join_DTO dto = (join_DTO) session.getAttribute("dto");
-
-	    if (dto == null) {
-	        m.addAttribute("msg", "alert('로그아웃 되었습니다. 다시 로그인 해주세요.'); location.href='index.do';");
+		//세션 체크
+	    HttpSession session = request.getSession(false); //세션이 없으면 null반환
+	    join_DTO dto = null;
+	    
+	    if(session != null) {
+	    	dto = (join_DTO) session.getAttribute("dto");
+	    }
+	    //로그인 안 한 경우(세션 자체가 없거나 dto가 없을때)
+	    if (session == null || dto == null) {
+	        m.addAttribute("msg", "alert('로그인 후에 이용 가능합니다.'); location.href='index.do';");
 	        return "load";
 	    }
-	    // 로그인 상태면 상담 페이지로 이동
+	    
+	    //세션은 있는데 세션 시간 오래돼서 만료된 경우
+	    Long logtime = (Long)session.getAttribute("logtime");
+	    long now = System.currentTimeMillis();
+	    
+	    if(logtime != null && (now - logtime > 30 * 60 * 1000)) {//30분 초과
+	    	session.invalidate(); //세션 무효화
+	    	m.addAttribute("msg", "alert('세션이 만료되어 로그아웃 되었습니다.'); location.href='index.do';");
+	    	return "load";
+	    }
+	    
+	    // 로그인 상태면 상담신청 페이지로 이동
 	    return "counsel";
 	}
-	
+	//상담신청 완료 처리(DB저장 + 이메일 전송)
 	@PostMapping("/counselok.do")
 	public String counselok(@RequestParam String mname,
 	                        @RequestParam String memail,
