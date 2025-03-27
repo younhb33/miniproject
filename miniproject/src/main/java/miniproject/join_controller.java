@@ -1,7 +1,10 @@
 package miniproject;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -187,7 +190,7 @@ public class join_controller  {
 		m.addAttribute("msg", msg);
 		return "load";
 	}
-	
+	//상담신청 창 카피라이트 출력
 	@GetMapping("/counsel.do")
 	public String counsel(HttpServletRequest request, Model m) {
 		List<copyright_DTO> cpList = this.index_DAO.copyright_select();
@@ -196,7 +199,7 @@ public class join_controller  {
 	    join_DTO dto = (join_DTO) session.getAttribute("dto");
 
 	    if (dto == null) {
-	        m.addAttribute("msg", "alert('로그인 후 이용 가능합니다.'); location.href='index.do';");
+	        m.addAttribute("msg", "alert('로그아웃 되었습니다. 다시 로그인 해주세요.'); location.href='index.do';");
 	        return "load";
 	    }
 	    // 로그인 상태면 상담 페이지로 이동
@@ -207,8 +210,8 @@ public class join_controller  {
 	public String counselok(@RequestParam String mname,
 	                        @RequestParam String memail,
 	                        @RequestParam String mtel,
-	                        @RequestParam(value = "rent_type") List<String> rentTypes,
-	                        @RequestParam(value = "house_type") List<String> houseTypes,
+	                        @RequestParam(name = "rent_type") ArrayList<String> rentTypes,
+	                        @RequestParam(name = "house_type") ArrayList<String> houseTypes,
 	                        @RequestParam String meeting_date,
 	                        @RequestParam String mcontent,
 	                        Model m ) {
@@ -216,19 +219,32 @@ public class join_controller  {
 	    System.out.println("이름: " + mname);
 	    System.out.println("이메일: " + memail);
 	    System.out.println("전화번호: " + mtel);
-	    System.out.println("임대형태: " + String.join(", ", rentTypes));
-	    System.out.println("주거형태: " + String.join(", ", houseTypes));
+	    System.out.println("임대형태: " + String.join(",", rentTypes));
+	    System.out.println("주거형태: " + String.join(",", houseTypes));
 	    System.out.println("상담일시: " + meeting_date);
 	    System.out.println("상담내용: " + mcontent);
+	    System.out.println("신청날짜: " + meeting_date);
 	    System.out.println("==========================");
 	    String msg = "";
-
+	    String rentin = String.join(",", rentTypes);
+	    String hsin = String.join(",", houseTypes);
 	    try {
-	    	//상담내용 DB저장 위치
+	    	//상담내용 DB insert
+	    	Map<String, String> data = new HashMap<String,String>();
+	    	data.put("mname", mname);
+	    	data.put("memail", memail);
+	    	data.put("mtel", mtel);
+	    	data.put("rent_type", rentin);
+	    	data.put("house_type", hsin);
+	    	data.put("mcontent", mcontent);
+	    	data.put("meeting_date", meeting_date);
+	    	
+	    	int result = this.dao.meet_in(data);
+	    	System.out.println("DB 저장 결과: " + result);
 	    	
 	        // 이메일 전송 시도
 	        m_MailSender.sendMail(memail, mname, mcontent);
-	        msg = "alert('상담신청이 완료되었습니다!'); "
+	        msg = "alert('담당자가 확인 후 해당 상담일시에 맞춰서 연락 드립니다.'); "
 	        		+ "location.href='./index.do';";
 
 	    } catch (Exception e) {
@@ -236,7 +252,6 @@ public class join_controller  {
 	        msg = "alert('이메일 발송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'); "
 	        		+ "history.go(-1);";
 	    }
-
 	    m.addAttribute("msg", msg);
 	    return "load";
 	}

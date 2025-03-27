@@ -26,7 +26,7 @@
 <li>주거형태</li>    
 <li>
 <label><input type="checkbox" class="sel_check" name="house_type" value="아파트"> 아파트</label>
-<label><input type="checkbox" class="sel_check" name="house_type" value="빌라,단독주택"> 빌라,단독주택</label>
+<label><input type="checkbox" class="sel_check" name="house_type" value="빌라¸단독주택"> 빌라,단독주택</label>
 <label><input type="checkbox" class="sel_check" name="house_type" value="사무실.상가.빌딩"> 사무실.상가.빌딩</label>
 </li>       
 <li>상담일시</li>    

@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>이메일 찾기</title>
-<link rel="stylesheet" type="text/css" href="./css/index.css?v=1">
-<link rel="stylesheet" type="text/css" href="./css/search_myinfo.css?v=2">
+<link rel="stylesheet" type="text/css" href="./css/index.css?v=12">
+<link rel="stylesheet" type="text/css" href="./css/search_myinfo.css?v=22">
 </head>
 <body>
 <!--최상단-->

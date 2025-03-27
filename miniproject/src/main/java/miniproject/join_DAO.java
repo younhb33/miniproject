@@ -62,4 +62,9 @@ public class join_DAO  {
 		int result = this.st.update("pw_update",data);
 		return result;
 	}
+	
+	public int meet_in(Map<String, String> data) {
+		int result = this.st.insert("miniproject.join_mapper.meet_in",data);
+		return result;
+	}
 }

@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 찾기</title>
-<link rel="stylesheet" type="text/css" href="./css/index.css?v=1">
-<link rel="stylesheet" type="text/css" href="./css/passwd_search.css?v=2">
+<link rel="stylesheet" type="text/css" href="./css/index.css?v=12">
+<link rel="stylesheet" type="text/css" href="./css/passwd_search.css?v=22">
 </head>
 <body>
 <!--최상단-->

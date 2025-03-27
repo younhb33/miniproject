@@ -11,9 +11,8 @@
 		<div class="week_estates">
 			<ul>
 				<cr:forEach var="idata" items="${weekList}" varStatus="aidx">
-					<li><a href=""> <span>매매</span>
+					<li><a href="./week_tails?aidx=${idata.aidx}"> <span>매매</span>
 							<div>${idata.apart_nm}</div>
-
 							<aside>${idata.addr}</aside> <span>${idata.type} |
 								${idata.rent_type}</span> <label>${idata.sale_date} |
 								${idata.in_date}</label>
