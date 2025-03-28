@@ -27,7 +27,7 @@
     <a href="./logout.jsp">[로그아웃]</a>
   </cr:when>
   <cr:otherwise>
-    <span title="로그인"><a href="./login.do"><img src="./ico/login.svg"></a></span>
+    <span title="로그인" ><a href="./login.do"><img src="./ico/login.svg"></a></span>
     <span title="회원가입"><a href="./member_join.do"><img src="./ico/membership.svg"></a></span>
   </cr:otherwise>
 </cr:choose>

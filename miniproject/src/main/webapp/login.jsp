@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
-<link rel="stylesheet" type="text/css" href="./css/index.css?v=11">
-<link rel="stylesheet" type="text/css" href="./css/login.css?v=11">
+<link rel="stylesheet" type="text/css" href="./css/index.css?v=30">
+<link rel="stylesheet" type="text/css" href="./css/login.css?v=16">
 <style>
 .box {
    width: 800px;

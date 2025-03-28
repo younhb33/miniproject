@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<link rel="stylesheet" type="text/css" href="./css/index.css?v=2">
-<link rel="stylesheet" type="text/css"
-	href="./css/passwd_search.css?v=3">
+
 <form id="frm" method="post" action="./psearch_ok.do">
 <section class="sub">
 	<div>
