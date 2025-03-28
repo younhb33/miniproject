@@ -3,7 +3,7 @@
     <%@ taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core" %>
     
 <link rel="stylesheet" type="text/css" href="./css/index.css?v=12">
-<link rel="stylesheet" type="text/css" href="./css/week_tails.css?v=12">
+<link rel="stylesheet" type="text/css" href="./css/week_tails.css?v=13">
 
 	<div class="weektails">
 		<p>분양정보</p>
@@ -26,6 +26,19 @@
 				<li><img src="./room/${info.img}"></li>
             </ul>
 		</div>
-        <div><button class="btn_css">방문예약</button></div>
-        <div><button class="btn_close">방문예약완료</button></div>
+		<cr:choose>
+			<cr:when test="${not empty vinfo}">
+        		<div><button class="btn_close" onclick="location.href='./reservation_check?vapart=${info.apart_nm}'">방문예약완료</button></div>
+        	</cr:when>
+        	<cr:otherwise>
+        		<div><button class="btn_css" onclick="location.href='./reservation?aidx=${info.aidx}'">방문예약</button></div>
+        	</cr:otherwise>
+        </cr:choose>
+        
 	</div>
+
+<!-- 
+info.apart_nm : 방문예약을 구분할 수 있는 고유한 값(vapart) 
+: 분양 아파트의 이름
+info객체 = weekinfo_DTO
+ -->

@@ -17,7 +17,7 @@
 	<typeAlias alias="mdchoicedto" type="miniproject.mdchoice_DTO"/>
 	<typeAlias alias="copyrightdto" type="miniproject.copyright_DTO"/>
 	<typeAlias alias="weekinfodto" type="miniproject.weekinfo_DTO"/>
-	
 	<typeAlias alias="joindto" type="miniproject.join_DTO"/>
+	<typeAlias alias="previsitdto" type="miniproject.pre_visit_DTO"/>
 </typeAliases>
 </configuration>

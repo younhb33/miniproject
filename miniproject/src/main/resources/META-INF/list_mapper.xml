@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="miniproject.list_mapper">
+<!-- 사전방문예약 db저장 -->
+<insert id="visit_insert" parameterType="previsitdto">
+insert into pre_visit(vidx,vapart,vdate,vtime,vname,vcount,vtel,add_date) 
+values ('0',#{vapart},#{vdate},#{vtime},#{vname},#{vcount},#{vtel},now())
+</insert>
+
+<!-- 방문예약완료 확인 창 - 유저 예약정보 -->
+<select id="visit_select" resultType="previsitdto" parameterType="Map">
+select * from pre_visit where vapart=#{vapart} and vname=#{vname} and vtel=#{vtel}
+</select>
+
+
+</mapper>

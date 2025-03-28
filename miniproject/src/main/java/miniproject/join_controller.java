@@ -107,6 +107,7 @@ public class join_controller  {
 			//로그인 성공시 세션에 저장
 			HttpSession session = request.getSession();
 			session.setAttribute("dto", sel_dto);
+			session.setAttribute("logtime", System.currentTimeMillis());
 			
 			System.out.println("로그인 성공 - 이름: " + sel_dto.getMem_nm());
 			System.out.println("로그인 성공 - 이메일: " + sel_dto.getEmail());
@@ -178,6 +179,7 @@ public class join_controller  {
 		m_md5 md5 = new m_md5();
 		String enc_pw = md5.md5_code(pw);
 		System.out.println("🔒 [디버깅] 암호화된 비밀번호: " + enc_pw);
+		
 		
 		//DAO호출 /DB업데이트
 		int result = this.dao.pw_update(enc_pw, email);

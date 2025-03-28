@@ -2,12 +2,10 @@ package miniproject;
 
 import org.springframework.stereotype.Repository;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 
-@Getter
-@Setter
+@Data
 @Repository("join_DTO")
 public class join_DTO {
 	int aidx;

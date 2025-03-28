@@ -23,7 +23,5 @@ select * from web_info order by aidx asc
 <select id="weektail_one" resultType="weekinfodto">
 select * from week_info where aidx = #{aidx}
 </select>
-
-
  
 </mapper>

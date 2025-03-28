@@ -115,3 +115,15 @@ create table meeting(
 );
    
 ===========================
+사전 방문예약 테이블
+create table pre_visit(
+	vidx int unsigned auto_increment comment '기본 키(자동 증가)',
+	vapart varchar(200) not null comment '분양정보',
+	vdate char(20) not null comment '방문일시',
+	vtime char(10) not null comment '방문시간',
+	vname char(40) not null comment '방문자명',
+	vcount enum('1','2') not null default '1' comment '방문인원',
+	vtel char(50) not null comment '연락처',
+	add_date timestamp not null default current_timestamp comment '방문신청날짜',
+	primary key(vidx)
+);

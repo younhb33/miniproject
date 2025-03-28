@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-      <link rel="stylesheet" type="text/css" href="./css/index.css?v=7">
-  <link rel="stylesheet" type="text/css" href="./css/member_join.css?v=3">
+
 <style>
 .box {
    width: 800px;

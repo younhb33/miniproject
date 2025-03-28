@@ -37,6 +37,7 @@
 		<array>
 			<value>classpath:/META-INF/mapper.xml</value>
 			<value>classpath:/META-INF/joinmapper.xml</value>
+			<value>classpath:/META-INF/list_mapper.xml</value>
 		</array>
 </property>
 
