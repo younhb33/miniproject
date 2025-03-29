@@ -3,12 +3,6 @@
 <%@taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core"%>
 <section class="sub">
 <p>모델 하우스 사전 방문예약 확인</p>
-<cr:if test="${empty sessionScope.dto}">
-	<script>
-		alert("로그인 후 이용 가능합니다.");
-		location.href='./index.do';
-	</script>
-</cr:if>
 
 <div>
 <span class="list_title">
