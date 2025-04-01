@@ -127,3 +127,76 @@ create table pre_visit(
 	add_date timestamp not null default current_timestamp comment '방문신청날짜',
 	primary key(vidx)
 );
+===========================
+게시판 리스트 테이블
+create table good_list(
+		lidx int unsigned auto_increment comment '기본 키(자동 증가)',
+		lsubject varchar(200) not null comment '제목',
+		lname varchar(100) not null comment '글쓴이',
+		lview int not null default '1' comment '조회수',
+		lcontext text not null comment '내용',
+		ldate timestamp not null default current_timestamp comment '등록일',
+		primary key(lidx)
+);
+
+
+create table good_list(
+		lidx int unsigned auto_increment comment '기본 키(자동 증가)',
+		lsubject varchar(200) not null comment '제목',
+		lname varchar(100) not null comment '글쓴이',
+		lview int null default '0' comment '조회수',
+		lcontext text not null comment '내용',
+		ldate timestamp not null default current_timestamp comment '등록일',
+		primary key(lidx)
+);
+
+
+drop table good_list;
+create table good_list(
+		lidx int unsigned auto_increment comment '기본 키(자동 증가)',
+		lsubject varchar(200) not null comment '제목',
+		lname varchar(100) not null comment '글쓴이',
+		lview int null default '0' comment '조회수',
+		lcontext text not null comment '내용',
+		ldate timestamp not null default current_timestamp comment '등록일',
+		primary key(lidx)
+);
+
+
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목1','관리자1','0','내용입니당1',now());
+
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목2','관리자2','0','내용입니당2',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목3','관리자3','0','내용입니당3',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목4','관리자4','0','내용입니당4',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목5','관리자5','0','내용입니당5',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목6','관리자6','0','내용입니당6',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목7','관리자7','0','내용입니당7',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목8','관리자8','0','내용입니당8',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목9','관리자9','0','내용입니당9',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목10','관리자10','0','내용입니당10',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목11','관리자11','0','내용입니당11',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목12','관리자12','0','내용입니당12',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목13','관리자13','0','내용입니당13',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목14','관리자14','0','내용입니당14',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목15','관리자15','0','내용입니당15',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목16','관리자16','0','내용입니당16',now());
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0','제목17','관리자17','0','내용입니당17',now());
+
+=====================

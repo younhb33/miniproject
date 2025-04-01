@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -104,6 +105,62 @@ public class list_controller {
 	    System.out.println("예약 정보 확인: " + vinfo);
 	    return "reservation_check";
 	}
+	//게시물 전체 데이터
+	@GetMapping("/md_boardok")
+	public String md_boardok(@ModelAttribute(name = "dto")list_DTO dto,
+			Model m ) {
+		
+		int result = this.list_DAO.list_new(dto);
+		
+		return null;
+	}
+	
+	
+	@GetMapping("/md_board")
+	public String md_board(Model m,
+			@RequestParam(name = "search", defaultValue = "", required = false)String search,
+			@RequestParam(defaultValue = "1", required = false)Integer pageno
+			){
+		this.cpList = this.index_DAO.copyright_select(); //카피라이트
+	    m.addAttribute("cpList", cpList);
+		
+	    //데이터 총 개수 확인 코드
+	    int total = this.list_DAO.list_total();
+	    //System.out.println(total);
+	    int userpage = 0;//사용자가 클릭한 페이지
+	    if(pageno == 1) {
+	    	userpage = 0;
+	    }else {
+	    	userpage = (pageno - 1) * 10;
+	    }
+	    //해당 일련번호 계산하여 jsp에 전달
+	    m.addAttribute("userpage", userpage);
+	    
+	    List<list_DTO> all = null;
+	    if(search.intern()=="") { //검색어가 없을 경우
+	    	all = this.list_DAO.list_select(pageno); //페이지 번호 클릭한 값
+	    }else {
+	    	all = this.list_DAO.list_search(search);
+	    }
+	    m.addAttribute("total",total); //데이터 전체 개수
+	    m.addAttribute("search",search); //검색어 jsp로 전달
+	    m.addAttribute("all", all);
+		return null;
+	}
+	
+	@GetMapping("/md_board_view")
+	public String md_board_view(@RequestParam int lidx, Model m) {
+		this.cpList = this.index_DAO.copyright_select(); //카피라이트
+	    m.addAttribute("cpList", cpList);
+		//조회수 증가
+		int view = this.list_DAO.update_view(lidx); //조회수 증가 먼저
+		//상세 게시물 정보 조회
+		list_DTO dto = this.list_DAO.view_list(lidx); //게시물 상세정보
+		
+		m.addAttribute("dto", dto); //jsp전달
+		return "md_board_view";
+	}
+	
 	
 	
 	

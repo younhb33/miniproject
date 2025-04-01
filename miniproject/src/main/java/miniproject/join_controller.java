@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Controller
 public class join_controller  {
@@ -196,38 +197,22 @@ public class join_controller  {
 		m.addAttribute("msg", msg);
 		return "load";
 	}
+	
 	//상담신청 페이지 진입 핸들링(세션/로그인상태)확인 포함
-	@GetMapping("/counsel.do")
-	public String counsel(HttpServletRequest request, Model m) {
-		//카피라이트 세팅
-		List<copyright_DTO> cpList = this.index_DAO.copyright_select();
-	    m.addAttribute("cpList", cpList);  // copyright.jsp에서 사용
-		//세션 체크
-	    HttpSession session = request.getSession(false); //세션이 없으면 null반환
-	    join_DTO dto = null;
-	    
-	    if(session != null) {
-	    	dto = (join_DTO) session.getAttribute("dto");
-	    }
-	    //로그인 안 한 경우(세션 자체가 없거나 dto가 없을때)
-	    if (session == null || dto == null) {
-	        m.addAttribute("msg", "alert('로그인 후에 이용 가능합니다.'); location.href='index.do';");
-	        return "load";
-	    }
-	    
-	    //세션은 있는데 세션 시간 오래돼서 만료된 경우
-	    Long logtime = (Long)session.getAttribute("logtime");
-	    long now = System.currentTimeMillis();
-	    
-	    if(logtime != null && (now - logtime > 30 * 60 * 1000)) {//30분 초과
-	    	session.invalidate(); //세션 무효화
-	    	m.addAttribute("msg", "alert('세션이 만료되어 로그아웃 되었습니다.'); location.href='index.do';");
-	    	return "load";
-	    }
-	    
-	    // 로그인 상태면 상담신청 페이지로 이동
-	    return "counsel";
-	}
+		@GetMapping("/counsel.do")
+		public String counsel(@SessionAttribute(name = "dto", required = false)join_DTO dto, HttpSession ss, Model m) {
+			//카피라이트 세팅
+			List<copyright_DTO> cpList = this.index_DAO.copyright_select();
+		    m.addAttribute("cpList", cpList);  // copyright.jsp에서 사용
+		    if(dto == null) {
+		    	m.addAttribute("msg", "alert('로그인 후에 이용 가능합니다.'); location.href='index.do';");
+		    	return "load";
+		    }
+
+		    // 로그인 상태면 상담신청 페이지로 이동
+		    return "counsel";
+		}
+	
 	//상담신청 완료 처리(DB저장 + 이메일 전송)
 	@PostMapping("/counselok.do")
 	public String counselok(@RequestParam String mname,

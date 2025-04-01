@@ -15,4 +15,35 @@ select * from pre_visit where vapart=#{vapart} and vname=#{vname} and vtel=#{vte
 </select>
 
 
+<!-- 추천분양 정보 게시판 입력 -->
+<insert id="list_new">
+insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
+values ('0',#{lsubject},#{lname},#{lview},#{lcontext},now())
+</insert>
+
+
+<!-- 추천분양 정보 게시판 출력 -->
+<select id="list_select" resultType="listdto" parameterType="Map">
+select * from good_list order by lidx desc limit #{spage},#{epage}
+</select>
+
+<!-- 게시판 검색기능 -->
+<select id="list_search" resultType="listdto" parameterType="String">
+select * from good_list where lsubject like concat('%',#{search},'%') order by lidx desc
+</select>
+
+<!-- 게시물 전체 데이터 개수 쿼리문 -->
+<select id="list_total" resultType="int">
+select count(*) as total from good_list
+</select>
+
+<!-- 게시물 상세 보기 -->
+<select id="view_list" resultType="listdto" parameterType="int">
+select * from good_list where lidx = #{lidx}
+</select>
+
+<!-- 조회수 증가 쿼리문 -->
+<update id="update_view" parameterType="int">
+update good_list set lview = lview + 1 where lidx = #{lidx}
+</update>
 </mapper>
