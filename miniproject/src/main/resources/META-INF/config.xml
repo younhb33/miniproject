@@ -16,9 +16,10 @@
 	<typeAlias alias="weekinfodto" type="miniproject.weekinfo_DTO"/>
 	<typeAlias alias="mdchoicedto" type="miniproject.mdchoice_DTO"/>
 	<typeAlias alias="copyrightdto" type="miniproject.copyright_DTO"/>
-	<typeAlias alias="weekinfodto" type="miniproject.weekinfo_DTO"/>
+	<typeAlias alias="meetingdto" type="miniproject.meeting_DTO"/>
+	<typeAlias alias="meetingviewdto" type="miniproject.meeting_view_DTO"/>
 	<typeAlias alias="joindto" type="miniproject.join_DTO"/>
 	<typeAlias alias="previsitdto" type="miniproject.pre_visit_DTO"/>
-	<typeAlias alias="listdto" type="miniproject.list_DTO"/>
+	<typeAlias alias="previsitviewdto" type="miniproject.pre_visit_view_DTO"/>
 </typeAliases>
 </configuration>

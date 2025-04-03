@@ -5,45 +5,64 @@
 <mapper namespace="miniproject.list_mapper">
 <!-- 사전방문예약 db저장 -->
 <insert id="visit_insert" parameterType="previsitdto">
-insert into pre_visit(vidx,vapart,vdate,vtime,vname,vcount,vtel,add_date) 
-values ('0',#{vapart},#{vdate},#{vtime},#{vname},#{vcount},#{vtel},now())
+insert into pre_visit(vidx,waidx,maidx,vapart,vdate,vtime,vname,vcount,vtel,add_date) 
+values ('0',#{waidx},#{maidx},#{vapart},#{vdate},#{vtime},#{vname},#{vcount},#{vtel},now())
 </insert>
 
 <!-- 방문예약완료 확인 창 - 유저 예약정보 -->
-<select id="visit_select" resultType="previsitdto" parameterType="Map">
-select * from pre_visit where vapart=#{vapart} and vname=#{vname} and vtel=#{vtel}
+<select id="visit_select" resultType="previsitviewdto" parameterType="Map">
+select * from view_previsit_all where apartment_name = #{apart} and mem_nm =#{name} and member_tel =#{tel}
 </select>
 
 
 <!-- 추천분양 정보 게시판 입력 -->
 <insert id="list_new">
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0',#{lsubject},#{lname},#{lview},#{lcontext},now())
+insert into md_choice(aidx,mtitle,details,img,img_path,link,lname,file_new,file_url,lview,ldate)
+values ('0',#{mtitle},#{details},#{img},#{img_path},#{link},#{lname},#{file_new},#{file_url},#{lview},now())
 </insert>
 
 
 <!-- 추천분양 정보 게시판 출력 -->
-<select id="list_select" resultType="listdto" parameterType="Map">
-select * from good_list order by lidx desc limit #{spage},#{epage}
+<select id="list_select" resultType="mdchoicedto" parameterType="Map">
+select * from md_choice order by aidx desc limit #{spage},#{epage}
 </select>
 
 <!-- 게시판 검색기능 -->
-<select id="list_search" resultType="listdto" parameterType="String">
-select * from good_list where lsubject like concat('%',#{search},'%') order by lidx desc
+<select id="list_search" resultType="mdchoicedto" parameterType="String">
+select * from md_choice where mtitle like concat('%',#{search},'%') order by aidx desc
 </select>
 
 <!-- 게시물 전체 데이터 개수 쿼리문 -->
 <select id="list_total" resultType="int">
-select count(*) as total from good_list
+select count(*) as total from md_choice
 </select>
 
 <!-- 게시물 상세 보기 -->
-<select id="view_list" resultType="listdto" parameterType="int">
-select * from good_list where lidx = #{lidx}
+<select id="view_list" resultType="mdchoicedto" parameterType="int">
+select * from md_choice where aidx = #{aidx}
 </select>
 
 <!-- 조회수 증가 쿼리문 -->
 <update id="update_view" parameterType="int">
-update good_list set lview = lview + 1 where lidx = #{lidx}
+update md_choice set lview = lview + 1 where aidx = #{aidx}
 </update>
+
+<!-- 방문예약 리스트 출력 -->
+<select id="rsvlist_select" resultType="previsitviewdto" parameterType="int">
+select visit_id,
+        mem_nm,
+        member_tel,
+        apartment_name,
+        visit_date,
+        visit_time,
+        people_count
+from pre_visit_view where maidx = #{midx} order by visit_date desc        
+</select>
+
+<!-- 방문예약 취소 -->
+<delete id="visit_delete" parameterType="int">
+delete from pre_visit where vidx = #{visit_id}
+</delete>
+
+
 </mapper>

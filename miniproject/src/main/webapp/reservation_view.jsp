@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core"%>
-    <link rel="stylesheet" type="text/css" href="./css/index.css?v=7">
-<link rel="stylesheet" type="text/css" href="./css/reservation.css?v=7">
+
 <form id="frm" method="post" action="./visitok.do">
 <section class="sub">
 <p>모델 하우스 사전 방문예약</p>
@@ -11,6 +10,8 @@
 <span style="color: blue;">분양정보</span>
 <span style="color: red;">${info.apart_nm}</span>
 </span>
+<input type="hidden" name="waidx" value="${info.aidx}">
+<input type="hidden" name="maidx" value="${sessionScope.dto.aidx}">
 <input type="hidden" name="vapart" value="${info.apart_nm}">
 <ul class="sub_ul">
 <li>방문일시</li>    

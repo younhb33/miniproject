@@ -13,7 +13,7 @@ select * from week_info order by aidx asc
 </select>
 
 <select id="mdchoice_select" resultType="mdchoicedto">
-select * from md_choice order by aidx asc
+select * from md_choice order by aidx desc limit 4
 </select>
 
 <select id="copyright_select" resultType="copyrightdto">

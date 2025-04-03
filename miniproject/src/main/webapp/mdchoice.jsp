@@ -13,12 +13,20 @@
 		<div class="md_estates">
 			<ul>
 				<cr:forEach var="mdata" items="${mdList}">
-					<a href="${mdata.link}"><li>
+					<a href="${mdata.link}">
+						<li>
 							<div>
-								<img src="./md_room/${mdata.img}" alt="${mdata.mtitle}">
-							</div> <span>${mdata.mtitle}</span>
+								<cr:if test="${empty mdata.file_url}">
+									<img src="./md_room/${mdata.img}" alt="${mdata.mtitle}">
+								</cr:if>
+								<cr:if test="${not empty mdata.file_url}">
+									<img src="..${mdata.file_url}" alt="${mdata.mtitle}">
+								</cr:if>
+							</div>
+							<span>${mdata.mtitle}</span>
 							<div>${mdata.details}</div>
-					</li></a>
+						</li>
+					</a>
 				</cr:forEach>
 			</ul>
 		</div>

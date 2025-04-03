@@ -8,7 +8,7 @@
         <div class="info_board">
           <ul>
             <li>제&nbsp;&nbsp;&nbsp;목</li>
-            <li>${dto.lsubject}</li>
+            <li>${fn:replace(dto.mtitle, '<br>', ' ')}</li>
             <li>글쓴이</li>
             <li>${dto.lname}</li>
             <li>등록일</li>
@@ -18,7 +18,7 @@
             <li class="litext">내&nbsp;&nbsp;&nbsp;용</li>
             <li class="litext">
                 <div class="textarea">
-                    ${dto.lcontext}
+                    ${dto.details}
                 </div>
             </li>
           </ul>

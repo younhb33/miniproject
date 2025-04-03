@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
     <%@taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+    <link rel="stylesheet" type="text/css" href="./css/index.css?v=10">
+<link rel="stylesheet" type="text/css" href="./css/md_board.css?v=11">
     <section class="sub">
         <p>추천분양 정보 게시판</p>
         <div class="boards">이번주 신규 매물정보를 한눈에 확인하실 수 있습니다.</div>
@@ -13,16 +15,15 @@
             <li>조회수</li>
             <li>등록일</li>
           </ul>
-          
           <!-- 배열값을 조건문으로 jstl에 처리: functions & length로 검토하여 처리 -->
           <cr:if test="${fn:length(all) == 0}">
           <ul><li class="nodata">등록된 게시물이 없습니다.</li></ul>
           </cr:if>
           <cr:set var="ino" value="${total-userpage}"/><!-- 게시물 일련번호 세팅 -->
           <cr:forEach var="gl" items="${all}" varStatus="idx">
-          <ul class="data_view" onclick="location.href='./md_board_view?lidx=${gl.lidx}'" style="cursor:pointer;">
+          <ul class="data_view" onclick="location.href='./md_board_view?aidx=${gl.aidx}'" style="cursor:pointer;">
             <li>${ino-idx.index}</li> 
-            <li style="text-align: left;">${gl.lsubject}</li>
+            <li style="text-align: left;">${fn:replace(gl.mtitle, '<br>', ' ')}</li>
             <li>${gl.lname}</li>
             <li>${gl.lview}</li>
             <li>${fn:substring(gl.ldate,0,10)}</li>

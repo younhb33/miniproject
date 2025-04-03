@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>상담신청</title>
-<link rel="stylesheet" type="text/css" href="./css/index.css?v=1">
-<link rel="stylesheet" type="text/css" href="./css/counsel.css?v=3">
+<link rel="stylesheet" type="text/css" href="./css/index.css?v=10">
+<link rel="stylesheet" type="text/css" href="./css/counsel.css?v=10">
 </head>
 <body>
 <!-- top(header/menu) -->

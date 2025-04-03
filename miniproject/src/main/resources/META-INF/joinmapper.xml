@@ -36,9 +36,9 @@ update m_join set pw=#{pw} where email=#{email}
 </update>
 
 <!-- 상담신청 db에 저장 -->
-<insert id="meet_in" parameterType="Map">
-insert into meeting(midx,mname,memail,mtel,rent_type,house_type,meeting_date,mcontent,add_date) 
-values ('0',#{mname},#{memail},#{mtel},#{rent_type},#{house_type},#{meeting_date},#{mcontent},now())
+<insert id="meet_in" parameterType="miniproject.meeting_DTO">
+insert into meeting(midx,maidx,mname,memail,mtel,rent_type,house_type,meeting_date,mcontent,add_date) 
+values ('0',#{maidx},#{mname},#{memail},#{mtel},#{rent_type},#{house_type},#{meeting_date},#{mcontent},now())
 </insert>
 
 </mapper>

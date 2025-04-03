@@ -43,14 +43,26 @@ create table md_choice (
     primary key (aidx)
 );
 
+create table md_choice (
+    aidx int unsigned auto_increment comment '기본 키(자동 증가)', 
+    mtitle varchar(200) not null comment '타이틀/글 제목',
+    details text not null comment '글/상세 내용',
+    img text null comment '원본 파일명',
+    img_path text null comment '이미지 저장 경로',    
+    link text comment '외부 링크 주소 (선택)',    
+    lname varchar(10) null default '관리자' comment '글쓴이',
+    file_new text null comment '저장 파일명',
+    file_url text null comment '파일 URL',
+    lview int null default '0' comment '조회수',
+    ldate timestamp not null default current_timestamp comment '등록일',
+    primary key (aidx)
+);
+drop table md_choice;
 
-
-
-insert into md_choice values('0','도심속에코 라이프입지<br>‘군산 레이크시티 아이파크’','레이크 라이프 누릴 수 있는 프리미엄 조경에<br>입주민 라이프스타일 맞춤형 평면 설계까지','md_1.jpg','https://www.r114.com/?_c=lots&_m=lotsnews&_a=newsdetail&bno=70&kind=0&search_keyword=&search_writer=&search_addr1=&search_addr2=&search_addr3=&sort=1&sort2=down&page=1&num=14428');
-insert into md_choice values('0','청주 가경 아이파크 6단지 <br> 합리적인 분양가!','브랜드 시티의 중심 <br> 중대형 중심의 공간 특화!','md_2.jpg','https://www.r114.com/?_c=lots&_m=lotsnews&_a=newsdetail&bno=70&kind=0&search_keyword=&search_writer=&search_addr1=&search_addr2=&search_addr3=&sort=1&sort2=down&page=1&num=14430');
-insert into md_choice values('0','풍부한 중심생활 인프라<br> ‘보문 센트럴 아이파크’','보문역 초역세권<br>성북천의 쾌적한 힐링 라이프','md_3.jpg','https://www.r114.com/?_c=lots&_m=lotsnews&_a=newsdetail&bno=70&kind=0&search_keyword=&search_writer=&search_addr1=&search_addr2=&search_addr3=&sort=1&sort2=down&page=1&num=14426');
-insert into md_choice values('0','서산 첫 아이파크<br>‘서산 센트럴 아이파크’','도보로 누리는 안심 통학권<br>최고 29층, 서산의 랜드마크','md_4.jpg','https://www.r114.com/?_c=lots&_m=lotsnews&_a=newsdetail&bno=70&kind=0&search_keyword=&search_writer=&search_addr1=&search_addr2=&search_addr3=&sort=1&sort2=down&page=1&num=14429');
-
+insert into md_choice(aidx,mtitle,details,img,img_path,link,lname,file_new,file_url,lview,ldate) values('0','도심속에코 라이프입지<br>‘군산 레이크시티 아이파크’','레이크 라이프 누릴 수 있는 프리미엄 조경에<br>입주민 라이프스타일 맞춤형 평면 설계까지','md_1.jpg','','https://www.r114.com/?_c=lots&_m=lotsnews&_a=newsdetail&bno=70&kind=0&search_keyword=&search_writer=&search_addr1=&search_addr2=&search_addr3=&sort=1&sort2=down&page=1&num=14428',default,'','','0',now());
+insert into md_choice(aidx,mtitle,details,img,img_path,link,lname,file_new,file_url,lview,ldate) values('0','청주 가경 아이파크 6단지 <br> 합리적인 분양가!','브랜드 시티의 중심 <br> 중대형 중심의 공간 특화!','md_2.jpg','','https://www.r114.com/?_c=lots&_m=lotsnews&_a=newsdetail&bno=70&kind=0&search_keyword=&search_writer=&search_addr1=&search_addr2=&search_addr3=&sort=1&sort2=down&page=1&num=14430',default,'','','0',now());
+insert into md_choice(aidx,mtitle,details,img,img_path,link,lname,file_new,file_url,lview,ldate) values('0','풍부한 중심생활 인프라<br> ‘보문 센트럴 아이파크’','보문역 초역세권<br>성북천의 쾌적한 힐링 라이프','md_3.jpg','','https://www.r114.com/?_c=lots&_m=lotsnews&_a=newsdetail&bno=70&kind=0&search_keyword=&search_writer=&search_addr1=&search_addr2=&search_addr3=&sort=1&sort2=down&page=1&num=14426',default,'','','0',now());
+insert into md_choice(aidx,mtitle,details,img,img_path,link,lname,file_new,file_url,lview,ldate) values('0','서산 첫 아이파크<br>‘서산 센트럴 아이파크’','도보로 누리는 안심 통학권<br>최고 29층, 서산의 랜드마크','md_4.jpg','','https://www.r114.com/?_c=lots&_m=lotsnews&_a=newsdetail&bno=70&kind=0&search_keyword=&search_writer=&search_addr1=&search_addr2=&search_addr3=&sort=1&sort2=down&page=1&num=14429',default,'','','0',now());
 
 
 
@@ -103,6 +115,7 @@ drop table m_join;
 
 create table meeting(
 	midx int unsigned auto_increment comment '기본 키(자동 증가)',
+	maidx int unsigned not null comment '회원번호(외래키)',
 	mname char(40) not null comment '상담자명',
 	memail varchar(100) not null comment '이메일',
 	mtel char(11) not null comment '연락처',
@@ -111,13 +124,65 @@ create table meeting(
 	meeting_date char(50) not null comment '상담날짜',
 	mcontent text not null comment '상담내용',
 	add_date timestamp not null default current_timestamp comment '신청날짜',
-	primary key(midx)
+	primary key(midx),
+	foreign key(maidx) references m_join(aidx)
 );
+상담자 이름, 이메일, 연락처 조인 SQL
+
+SELECT 
+	m.midx AS 상담ID,
+	j.mem_nm AS mem_nm,
+	j.email AS email,
+	j.tel AS tel,
+	m.rent_type,
+	m.house_type,
+	m.meeting_date,
+	m.mcontent
+FROM 
+	meeting m
+JOIN 
+	m_join j ON m.maidx = j.aidx;
+
+
+상담자 정보 뷰 생성 SQL
+
+CREATE VIEW view_meeting_info AS
+SELECT 
+    m.midx AS meeting_id,           -- 상담 ID (meeting 테이블 PK)
+    j.aidx AS member_id,            -- 회원 ID (m_join 테이블 PK)
+    j.mem_nm AS member_name,        -- 회원 이름
+    j.email AS member_email,        -- 회원 이메일
+    j.tel AS member_tel,            -- 회원 연락처
+    m.rent_type,                    -- 임대 형태
+    m.house_type,                   -- 주거 형태
+    m.meeting_date,                 -- 상담 날짜
+    m.mcontent,                     -- 상담 내용
+    m.add_date                      -- 상담 신청일
+FROM 
+    meeting m
+JOIN 
+    m_join j ON m.maidx = j.aidx;
+
+
+- 전체 상담 내역 조회:
+SELECT * FROM view_meeting_info;
+
+
+- 특정 회원 ID로 필터링:
+SELECT * FROM view_meeting_info WHERE member_id = 3;
+
+
+- 상담자 이름으로 검색:
+SELECT * FROM view_meeting_info WHERE member_name = '홍길동';
+
+
    
 ===========================
 사전 방문예약 테이블
 create table pre_visit(
 	vidx int unsigned auto_increment comment '기본 키(자동 증가)',
+	waidx int unsigned not null comment '아파트 번호(week_info.aidx)',
+	maidx int unsigned not null comment '회원 번호(m_join.aidx)',
 	vapart varchar(200) not null comment '분양정보',
 	vdate char(20) not null comment '방문일시',
 	vtime char(10) not null comment '방문시간',
@@ -125,8 +190,93 @@ create table pre_visit(
 	vcount enum('1','2') not null default '1' comment '방문인원',
 	vtel char(50) not null comment '연락처',
 	add_date timestamp not null default current_timestamp comment '방문신청날짜',
-	primary key(vidx)
+	primary key(vidx),
+	foreign key(waidx) references week_info(aidx) on delete cascade,
+	foreign key(maidx) references m_join(aidx) on delete cascade
 );
+
+SELECT 
+    v.vidx,               -- 예약 번호
+    m.mem_nm AS mem_nm,     -- 회원 이름
+    m.tel AS tel,      -- 연락처
+    w.apart_nm AS apart_nm, -- 아파트 이름
+    v.vdate AS vdate,
+    v.vtime AS vtime,
+    v.vcount AS vcount
+FROM 
+    pre_visit v
+JOIN 
+    m_join m ON v.maidx = m.aidx
+JOIN 
+    week_info w ON v.waidx = w.aidx;
+
+SELECT w.apart_nm, v.vdate, v.vtime
+FROM pre_visit v
+JOIN m_join m ON v.maidx = m.aidx
+JOIN week_info w ON v.waidx = w.aidx
+WHERE m.mem_nm = '홍길동';
+
+
+기본키로 다 핸들링 했으니까 자동증가 키로 join
+
+
+
+
+
+---
+
+1. 전체 방문예약 정보 뷰
+
+뷰 이름: pre_visit_view
+
+SELECT * FROM pre_visit_view;
+SELECT * FROM pre_visit_view ORDER BY visit_date DESC;
+
+
+CREATE OR REPLACE VIEW pre_visit_view AS
+SELECT 
+    v.vidx AS visit_id,
+    v.maidx AS maidx,           
+    m.mem_nm AS mem_nm,
+    m.tel AS member_tel,
+    w.apart_nm AS apartment_name,
+    v.vdate AS visit_date,
+    v.vtime AS visit_time,
+    v.vcount AS people_count
+FROM 
+    pre_visit v
+JOIN 
+    m_join m ON v.maidx = m.aidx
+JOIN 
+    week_info w ON v.waidx = w.aidx;
+
+
+
+---
+이거는 사용 안 함
+2. 특정 회원의 예약 정보 뷰
+뷰 이름: view_previsit_by_member
+
+CREATE VIEW view_previsit_by_member AS
+SELECT 
+    m.mem_nm AS member_name,
+    m.tel AS member_tel,
+    w.apart_nm AS apartment_name,
+    v.vdate AS visit_date,
+    v.vtime AS visit_time
+FROM 
+    pre_visit v
+JOIN 
+    m_join m ON v.maidx = m.aidx
+JOIN 
+    week_info w ON v.waidx = w.aidx;
+
+
+이 뷰는 WHERE 절로 회원별 조회 가능:
+SELECT * FROM view_previsit_by_member WHERE member_name = '홍길동';
+
+
+
 ===========================
 게시판 리스트 테이블
 create table good_list(
@@ -145,6 +295,9 @@ create table good_list(
 		lsubject varchar(200) not null comment '제목',
 		lname varchar(100) not null comment '글쓴이',
 		lview int null default '0' comment '조회수',
+		file_ori text null comment '원본파일명',
+		file_new text null comment '수정파일명',
+		file_url text null comment '파일url',
 		lcontext text not null comment '내용',
 		ldate timestamp not null default current_timestamp comment '등록일',
 		primary key(lidx)
@@ -163,40 +316,5 @@ create table good_list(
 );
 
 
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목1','관리자1','0','내용입니당1',now());
-
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목2','관리자2','0','내용입니당2',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목3','관리자3','0','내용입니당3',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목4','관리자4','0','내용입니당4',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목5','관리자5','0','내용입니당5',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목6','관리자6','0','내용입니당6',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목7','관리자7','0','내용입니당7',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목8','관리자8','0','내용입니당8',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목9','관리자9','0','내용입니당9',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목10','관리자10','0','내용입니당10',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목11','관리자11','0','내용입니당11',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목12','관리자12','0','내용입니당12',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목13','관리자13','0','내용입니당13',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목14','관리자14','0','내용입니당14',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목15','관리자15','0','내용입니당15',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목16','관리자16','0','내용입니당16',now());
-insert into good_list(lidx,lsubject,lname,lview,lcontext,ldate) 
-values ('0','제목17','관리자17','0','내용입니당17',now());
 
 =====================

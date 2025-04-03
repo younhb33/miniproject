@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @Repository("mdchoice_DTO")
 public class mdchoice_DTO {
-	int aidx;
-	String mtitle,details,img,link;
+	int aidx,lview;
+	String mtitle,details,img,img_path,link,lname,file_new,file_url,ldate;
 }

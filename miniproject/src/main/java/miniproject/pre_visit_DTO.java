@@ -9,6 +9,6 @@ import lombok.Setter;
 @Getter
 @Repository("pre_visit_DTO")
 public class pre_visit_DTO {
-	int vidx;
+	int vidx,waidx,maidx;
 	String vapart,vdate,vtime,vname,vcount,vtel,add_date;
 }

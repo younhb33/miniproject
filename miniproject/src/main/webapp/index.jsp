@@ -8,7 +8,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>온라인 부동산 중개</title>
   <link rel="stylesheet" type="text/css" href="./css/index.css?v=7">
+  <style>
+.box {
+   width: 800px;
+   height: 300px;
+   border: 1px solid black;
+   overflow: auto;
+}
+</style>
+  
 </head>
+
 <body>
 <!-- top(header/menu) -->
  <cr:import url="./top.jsp"></cr:import>

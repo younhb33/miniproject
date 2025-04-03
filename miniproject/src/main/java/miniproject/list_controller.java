@@ -1,6 +1,8 @@
 package miniproject;
 
+import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -8,10 +10,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class list_controller {
@@ -24,6 +29,11 @@ public class list_controller {
 	@Resource(name = "weekinfo_DTO")
 	weekinfo_DTO weekinfo_DTO;
 	
+	@Resource(name = "mdchoice_DTO")
+	mdchoice_DTO mdchoice_DTO; 
+	
+	@Resource(name = "m_file_rename") //파일명 변경
+	m_file_rename fname;
 	
 	List<copyright_DTO> cpList = null;
 	
@@ -39,7 +49,7 @@ public class list_controller {
 	    if(session != null) {
 	    	join_DTO dto = (join_DTO)session.getAttribute("dto");
 	    	if(dto != null) {
-	    		pre_visit_DTO vinfo = this.list_DAO.visit_select(one.getApart_nm(), dto.getMem_nm(), dto.getTel());
+	    		pre_visit_view_DTO  vinfo = this.list_DAO.visit_select(one.getApart_nm(), dto.getMem_nm(), dto.getTel());
 	    		m.addAttribute("vinfo", vinfo); //jsp체크용
 	    		System.out.println("예약 여부 정보 : "+ vinfo);
 	    	}
@@ -68,7 +78,13 @@ public class list_controller {
 	}
 	
 	@PostMapping("/visitok.do")
-	public String visitok(pre_visit_DTO dto, Model m) {
+	public String visitok(@ModelAttribute pre_visit_DTO dto, 
+			@SessionAttribute(name = "dto", required = false) join_DTO join_DTO,
+			Model m) {
+		//waidx = info.aidx(아파트일련번호) / maidx = 현재 로그인한 회원의 aidx
+		dto.setWaidx(dto.getWaidx()); //전달받았는지 확인
+		dto.setMaidx(join_DTO.getAidx());
+		
 		int result = this.list_DAO.visit_insert(dto);
 		String msg = "";
 		if(result > 0) {
@@ -97,22 +113,13 @@ public class list_controller {
 	    join_DTO dto = (join_DTO) session.getAttribute("dto");
 	    
 	    //DB에서 예약 정보 조회
-	    pre_visit_DTO vinfo = this.list_DAO.visit_select(vapart, dto.getMem_nm(), dto.getTel());
+	    pre_visit_view_DTO vinfo = this.list_DAO.visit_select(vapart, dto.getMem_nm(), dto.getTel());
 	    
 	    if(vinfo != null) {
 	    	m.addAttribute("vinfo",vinfo);
 	    }
 	    System.out.println("예약 정보 확인: " + vinfo);
 	    return "reservation_check";
-	}
-	//게시물 전체 데이터
-	@GetMapping("/md_boardok")
-	public String md_boardok(@ModelAttribute(name = "dto")list_DTO dto,
-			Model m ) {
-		
-		int result = this.list_DAO.list_new(dto);
-		
-		return null;
 	}
 	
 	
@@ -136,7 +143,7 @@ public class list_controller {
 	    //해당 일련번호 계산하여 jsp에 전달
 	    m.addAttribute("userpage", userpage);
 	    
-	    List<list_DTO> all = null;
+	    List<mdchoice_DTO> all = null;
 	    if(search.intern()=="") { //검색어가 없을 경우
 	    	all = this.list_DAO.list_select(pageno); //페이지 번호 클릭한 값
 	    }else {
@@ -149,18 +156,114 @@ public class list_controller {
 	}
 	
 	@GetMapping("/md_board_view")
-	public String md_board_view(@RequestParam int lidx, Model m) {
+	public String md_board_view(@RequestParam int aidx, Model m) {
 		this.cpList = this.index_DAO.copyright_select(); //카피라이트
 	    m.addAttribute("cpList", cpList);
 		//조회수 증가
-		int view = this.list_DAO.update_view(lidx); //조회수 증가 먼저
+		int view = this.list_DAO.update_view(aidx); //조회수 증가 먼저
+		System.out.println("글 목록 조회 전 조회수 확인 : " + this.list_DAO.view_list(aidx).getLview());
 		//상세 게시물 정보 조회
-		list_DTO dto = this.list_DAO.view_list(lidx); //게시물 상세정보
-		
+		mdchoice_DTO dto = this.list_DAO.view_list(aidx); //게시물 상세정보
+		System.out.println("조회수 업데이트 결과 : " + view); //1 성공, 0 실패
 		m.addAttribute("dto", dto); //jsp전달
 		return "md_board_view";
 	}
 	
+	@GetMapping("/md_board_write")
+	public String md_board_write(Model m) {
+		this.cpList = this.index_DAO.copyright_select(); //카피라이트
+	    m.addAttribute("cpList", cpList);
+		return null;
+	}
+	
+	int callback = 0;
+	
+	//게시물 전체 데이터
+	@PostMapping("/md_boardok")
+	public String md_boardok(@ModelAttribute(name = "dto")mdchoice_DTO dto,
+			MultipartFile lfile, HttpServletRequest req,
+			Model m ) {
+		
+		String file_new = null;
+		String msg = "";
+
+		String filenm = lfile.getOriginalFilename();
+		String fileExt = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+		if(!fileExt.matches("jpg|jpeg|png|gif")) {
+			msg = "alert('이미지 파일(jpg, png, gif)만 업로드 가능합니다.');"
+					+ "history.go(-1);";
+			m.addAttribute("msg", msg);
+			return "load";
+		}
+		
+		//파일용량체크
+		if(lfile.getSize() > (2 * 1024 * 1024)) {
+			msg = "alert('이미지 용량은 2MB 이하로 업로드해주세요');"
+					+ "history.go(-1);";
+			m.addAttribute("msg", msg);
+			return "load";
+		}
+		try {
+			if(lfile.getSize() > 0) { //용량체크
+				file_new = this.fname.rename(lfile.getOriginalFilename()); //file_name.java로 값 보냄
+				//웹 디렉토리 > 내가 생성한 파일명으로 저장
+				//저장될 경로 -  C:\younhb33\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\miniproject\
+				String url = req.getServletContext().getRealPath("/upload/");
+				//System.out.println(url);
+				FileCopyUtils.copy(lfile.getBytes(), new File(url + file_new));//새로운 파일명으로 저장
+				
+				dto.setFile_url("/upload/" + file_new); //웹 디렉토리 경로 및 파일명
+				dto.setFile_new(file_new); //모델에 저장한 방식으로 파일명 변경값
+				dto.setImg(lfile.getOriginalFilename());//사용자가 적용한 파일명
+				
+				int result = this.list_DAO.list_new(dto);//파일 저장
+				
+				msg = "alert('추천분양 정보 게시판 게시물이 추가 되었습니다.');"
+						+ "location.href='md_board';";
+			}else {
+				msg = "alert('게시물 추가 안됨 - 문제발생');"
+						+ "history.go(-1);";
+			}
+			
+		} catch (Exception e) {
+			msg = "alert('게시물 추가 안됨 - 문제발생');"
+					+ "history.go(-1);";
+			e.printStackTrace();
+		}
+		m.addAttribute("msg", msg);
+		return "load";
+	}
+	
+	@GetMapping("/reservation_list")
+	public String reservation_list(@SessionAttribute(name = "dto", required = false)join_DTO loginDTO,
+	Model m) {
+		this.cpList = this.index_DAO.copyright_select(); //카피라이트
+	    m.addAttribute("cpList", cpList);
+	    
+	    if(loginDTO == null) {
+	    	m.addAttribute("msg", "alert('로그인 후 이용 가능합니다.'); location.href='index.do';");
+	    	return "load";
+	    }
+	    int midx = loginDTO.getAidx();
+	    List<pre_visit_view_DTO> rsvlist = this.list_DAO.rsvlist_select(midx);
+	    m.addAttribute("rsvlist", rsvlist);
+	    
+		return "reservation_list";
+	}
+	@PostMapping("/rsvlist_del")
+	public String rsvlist_del(@RequestParam int visit_id, Model m) {
+		int result = this.list_DAO.visit_delete(visit_id);
+		String msg = "";
+		
+		if(result > 0) {
+			msg = "alert('예약이 정상적으로 취소되었습니다.'); location.href='reservation_list';";
+		}else {
+			msg = "alert('예약 취소 실패. 다시 시도해 주세요.'); history.go(-1);";
+		}
+		m.addAttribute("msg", msg);
+		return "load";
+		
+	}
 	
 	
 	

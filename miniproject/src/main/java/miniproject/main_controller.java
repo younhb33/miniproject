@@ -20,13 +20,12 @@ public class main_controller {
 	@GetMapping("/index.do")
 	public String index(Model m) {
 	    List<weekinfo_DTO> infoList = this.index_DAO.weekinfo_select();
-	    List<mdchoice_DTO> mdList = this.index_DAO.mdchoice_select();
 	    List<copyright_DTO> cpList = this.index_DAO.copyright_select();
-	    
-	    
+	    List<mdchoice_DTO> mdList = this.index_DAO.mdchoice_select();
+
 	    m.addAttribute("weekList", infoList);
-	    m.addAttribute("mdList", mdList);
 	    m.addAttribute("cpList", cpList);
+	    m.addAttribute("mdList", mdList);
 	    
 	    return "index"; // index.jsp
 	}

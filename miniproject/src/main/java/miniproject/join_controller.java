@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -215,43 +216,26 @@ public class join_controller  {
 	
 	//상담신청 완료 처리(DB저장 + 이메일 전송)
 	@PostMapping("/counselok.do")
-	public String counselok(@RequestParam String mname,
-	                        @RequestParam String memail,
-	                        @RequestParam String mtel,
+	public String counselok(@ModelAttribute meeting_DTO dto,
+							@SessionAttribute(name = "dto", required = false)join_DTO join_DTO,
 	                        @RequestParam(name = "rent_type") ArrayList<String> rentTypes,
 	                        @RequestParam(name = "house_type") ArrayList<String> houseTypes,
-	                        @RequestParam String meeting_date,
-	                        @RequestParam String mcontent,
 	                        Model m ) {
-		System.out.println("===== 상담신청 디버깅 =====");
-	    System.out.println("이름: " + mname);
-	    System.out.println("이메일: " + memail);
-	    System.out.println("전화번호: " + mtel);
-	    System.out.println("임대형태: " + String.join(",", rentTypes));
-	    System.out.println("주거형태: " + String.join(",", houseTypes));
-	    System.out.println("상담일시: " + meeting_date);
-	    System.out.println("상담내용: " + mcontent);
-	    System.out.println("신청날짜: " + meeting_date);
-	    System.out.println("==========================");
+
 	    String msg = "";
-	    String rentin = String.join(",", rentTypes);
-	    String hsin = String.join(",", houseTypes);
+	    
 	    try {
-	    	//상담내용 DB insert
-	    	Map<String, String> data = new HashMap<String,String>();
-	    	data.put("mname", mname);
-	    	data.put("memail", memail);
-	    	data.put("mtel", mtel);
-	    	data.put("rent_type", rentin);
-	    	data.put("house_type", hsin);
-	    	data.put("mcontent", mcontent);
-	    	data.put("meeting_date", meeting_date);
+	    	//세션 기반 회원번호 설정
+	    	dto.setMaidx(join_DTO.getAidx());
+	    	//다중 선택값은 문자열로 변환하여 저장
+	    	dto.setRent_type(String.join(",", rentTypes));
+	    	dto.setHouse_type(String.join(",", houseTypes));
 	    	
-	    	int result = this.dao.meet_in(data);
+	    	int result = this.dao.meet_in(dto);
 	    	System.out.println("DB 저장 결과: " + result);
 	    	
 	        // 이메일 전송 시도
-	        m_MailSender.sendMail(memail, mname, mcontent);
+	        m_MailSender.sendMail(dto.getMemail(), dto.getMname(), dto.getMcontent());
 	        msg = "alert('담당자가 확인 후 해당 상담일시에 맞춰서 연락 드립니다.'); "
 	        		+ "location.href='./index.do';";
 
