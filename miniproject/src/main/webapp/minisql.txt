@@ -110,6 +110,16 @@ create table m_join(
 
 drop table m_join;
 
+ALTER TABLE m_join 
+ADD COLUMN kakao_nick VARCHAR(100) DEFAULT NULL COMMENT '카카오 닉네임';
+
+ADD COLUMN mjoin ENUM('WEB', 'KAKAO', 'NAVER') DEFAULT 'WEB' NOT NULL COMMENT '가입 형태',
+ADD COLUMN mcode INTEGER DEFAULT '1' NOT NULL COMMENT '회원 코드'
+ALTER TABLE m_join
+MODIFY COLUMN mcode CHAR(1) NOT NULL DEFAULT '1' COMMENT '회원 코드';
+select * from m_join;
+DELETE FROM m_join WHERE aidx = 9;
+
 ===========================
 상담 신청 테이블
 
