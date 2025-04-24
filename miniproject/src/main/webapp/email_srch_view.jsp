@@ -1,8 +1,12 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+Date today = new Date();
+%>	
 <%@ taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core"%>
-<link rel="stylesheet" type="text/css" href="./css/index.css?v=1">
-<link rel="stylesheet" type="text/css" href="./css/email_search.css?v=2">
+<link rel="stylesheet" type="text/css" href="./css/index.css?v=<%=today%>">
+<link rel="stylesheet" type="text/css" href="./css/email_search.css?v=<%=today%>">
 
 <form id="frm" method="post" action="./msearch_ok.do">
 	<section class="sub">
@@ -27,4 +31,4 @@
 	</section>
 </form>
 
-<script src="./search.js?v=2"></script>
+<script src="./search.js?v=<%=today%>"></script>

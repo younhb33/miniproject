@@ -1,6 +1,9 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%
+Date today = new Date();
+%>
 <form id="frm" method="post" action="./psearch_ok.do">
 <section class="sub">
 	<div>
@@ -24,4 +27,4 @@
 </section>
 	</form>
 
-<script src="./search.js?v=2"></script>
+<script src="./search.js?v=<%=today%>"></script>

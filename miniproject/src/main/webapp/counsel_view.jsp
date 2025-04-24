@@ -1,5 +1,9 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+Date today = new Date();
+%>
 <%@ taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -42,4 +46,4 @@
 </section>
 </form>
 
-<script src="./counselok.js?v=1"></script>
+<script src="./counselok.js?v=<%=today%>"></script>

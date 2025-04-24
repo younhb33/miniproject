@@ -2,8 +2,6 @@
     var pwrule = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{10,16}$/;
 	var tel_regp = /^01\d{8,9}$/;
 	
-	
-	
 function check_email(){
 	var em = document.getElementById("email");
 	// 이메일 형식 검사
@@ -56,6 +54,41 @@ function em_ajax(email) {
 
 //이용약관 txt집어넣기
 window.onload = function() {
+	
+	let eml = sessionStorage.getItem("email");
+	
+	console.log("📦 sessionStorage email:", eml);
+		console.log("📥 form email field:", f.email);
+		console.log("📥 form email field value before:", f.email.value);
+
+	
+	if(eml != null && eml != "") {
+		// 이메일 중복체크 확인 처리
+		f.emailck.value = "Y";
+
+		// 중복체크 버튼 숨기기
+		document.getElementsByClassName("mail_btn")[0].style.visibility = "hidden";
+		document.getElementsByClassName("mail_btn")[0].disabled = true;
+
+		// mjoin, mcode 값 설정
+		f.mjoin.value = "KAKAO";
+		f.mcode.value = "2";
+
+		// 이메일, 비밀번호 자동입력 + 읽기 전용
+		f.email.value = eml;
+		f.email.readOnly = true;
+
+		// 비밀번호 및 확인란 자동설정 (카카오 ID를 기본값으로)
+		f.pw.value = eml;
+		f.pw.readOnly = true;
+
+		f.pw_ok.value = eml;
+		f.pw_ok.readOnly = true;
+		
+		
+	}
+	
+	
 	var http = new XMLHttpRequest;
 	http.open("GET","./agree1.txt",false); //GET 통신을 이용하여 해당 파일을 로드
 	http.send();
@@ -94,14 +127,15 @@ function joinok() {
         return false;
 	}
 	else {
+		//WEB 사용자만 비밀번호 규칙 검사
+		if (f.mjoin.value === "WEB") {
 
-
-		// 비밀번호 규칙 검사
-		if (!pwrule.test(f.pw.value)) {
-			alert("비밀번호는 영문, 숫자, 특수문자를 조합하여 10~16자로 입력해주세요.");
-			return false;
+			// 비밀번호 규칙 검사
+			if (!pwrule.test(f.pw.value)) {
+				alert("비밀번호는 영문, 숫자, 특수문자를 조합하여 10~16자로 입력해주세요.");
+				return false;
+			}
 		}
-
 		// 약관 필수 동의 체크
 		var agree14 = document.getElementById("ok_14").checked;
 		var agreeTerms = document.getElementById("serviceok").checked;

@@ -5,11 +5,11 @@
 <mapper namespace="miniproject.join_mapper">
 <!-- 회원가입 정보 -->
 <insert id="join_insert">
-insert into m_join(aidx,email,pw,mem_nm,tel,agree_all,agree_14,agree_terms,agree_privacy,agree_marketing,join_date)
-values ('0',#{email},#{pw},#{mem_nm},#{tel},#{agree_all},#{agree_14},#{agree_terms},#{agree_privacy}, #{agree_marketing},now())
+insert into m_join(aidx,email,pw,mem_nm,tel,agree_all,agree_14,agree_terms,agree_privacy,agree_marketing,mjoin,mcode,join_date)
+values ('0',#{email},#{pw},#{mem_nm},#{tel},#{agree_all},#{agree_14},#{agree_terms},#{agree_privacy},#{agree_marketing},#{mjoin},#{mcode},now())
 </insert>
 
-  <!-- 이메일 중복 체크 -->
+<!-- 이메일 중복 체크 -->
 <select id="check_email" resultType="int">
 select count(*) from m_join where email= #{email}
 </select>

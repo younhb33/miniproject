@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -30,7 +31,6 @@ public class join_controller  {
 	
 	@Resource(name = "join_DTO")
 	public join_DTO dto;
-	
 
 	@PostMapping("/join_ok.do")
 	public String join_ok(join_DTO dto, Model m) throws Exception {
@@ -49,7 +49,12 @@ public class join_controller  {
 			if(dto.getAgree_marketing()== null) {
 				dto.setAgree_marketing("N");
 			}
-
+			
+			if(dto.getMcode() == null || dto.getMcode().isEmpty()) {
+				dto.setMcode("1"); // 기본값 1
+				dto.setMjoin("WEB"); // 기본값 WEB
+			}
+			
 			int result = this.dao.join_insert(dto);
 			
 			if(result > 0) {
@@ -88,39 +93,58 @@ public class join_controller  {
 	}
 	
 	//로그인
-	@PostMapping("/loginok.do")
-	public String loginok(join_DTO dto, Model m, HttpServletRequest request)throws Exception {
+	@RequestMapping("/loginok.do")
+	public String loginok(join_DTO dto, Model m, 
+			HttpServletRequest req 
+			)throws Exception {
 		String msg = "";
-		//비밀번호 공백처리		
-		if(dto.getPw() == null || dto.getPw().isEmpty()) {
-			msg = "alert('비밀번호가 비어있습니다.');"
-					+ "history.go(-1);";
-			m.addAttribute("msg",msg);
-			return "load";		
-		}
-		//비밀번호가 null이 아니면 md5 암호화
-		dto.setPw(new m_md5().md5_code(dto.getPw()));
-		//로그인 정보 조회
-		join_DTO sel_dto = this.dao.login_select(dto);
-		if(sel_dto == null) {
-			msg = "alert('아이디 또는 패스워드를 다시 확인해주세요');"
-					+ "history.go(-1)";
-		}else {
-			//로그인 성공시 세션에 저장
-			HttpSession session = request.getSession();
-			session.setAttribute("dto", sel_dto);
-			session.setAttribute("logtime", System.currentTimeMillis());
-			
-			System.out.println("로그인 성공 - 이름: " + sel_dto.getMem_nm());
-			System.out.println("로그인 성공 - 이메일: " + sel_dto.getEmail());
-			System.out.println("로그인 성공 - 전화번호: " + sel_dto.getTel());
+		HttpSession session = null;
+		if(dto.getMcode().equals("1")) {
+			//비밀번호 공백처리		
+			if(dto.getPw() == null || dto.getPw().isEmpty()) {
+				msg = "alert('비밀번호가 비어있습니다.');"
+						+ "history.go(-1);";
+				m.addAttribute("msg",msg);
+				return "load";		
+			}
+			//비밀번호가 null이 아니면 md5 암호화
+			dto.setPw(new m_md5().md5_code(dto.getPw()));
+			//로그인 정보 조회
+			join_DTO sel_dto = this.dao.login_select(dto);
+			if(sel_dto == null) {
+				msg = "alert('아이디 또는 패스워드를 다시 확인해주세요');"
+						+ "history.go(-1)";
+			}else {
+				//로그인 성공시 세션에 저장
+				session = req.getSession();
+				session.setAttribute("dto", sel_dto);
+				session.setAttribute("logtime", System.currentTimeMillis());
+				
+				System.out.println("로그인 성공 - 이름: " + sel_dto.getMem_nm());
+				System.out.println("로그인 성공 - 이메일: " + sel_dto.getEmail());
+				System.out.println("로그인 성공 - 전화번호: " + sel_dto.getTel());
 
+				msg = "location.href='./index.do';";
+			}
+		}else if(dto.getMcode().equals("2")) { //카카오 로그인
 			
-			
-			msg = "location.href='./index.do';";
+			dto.setEmail(dto.getKakao_id()); //이메일 자리에 kakao_id 사용 (동일하게 저장돼 있으니까)
+			dto.setPw(new m_md5().md5_code(dto.getKakao_id())); 
+			join_DTO sel_dto = this.dao.login_select(dto);
+			 if(sel_dto == null) { //로그인 실패시
+				msg = "alert('카카오 사용자로 로그인시 간편회원가입이 필요합니다.');"
+						+ "sessionStorage.setItem('email','"+ dto.getKakao_id() +"');"
+						+ "location.href='./member_join.do';";
+				}else { //로그인 성공시
+					session = req.getSession();
+					session.setAttribute("dto", sel_dto);
+					msg = "alert('로그인 하셨습니다.'); location.href='./index.do';";
+				}
+			 m.addAttribute("msg", msg);
+		}else {
+			msg = "alert('잘못된 접근입니다.');" + "history.go(-1);";
 		}
 		
-		m.addAttribute("msg", msg);
 		return "load";
 	}
 	

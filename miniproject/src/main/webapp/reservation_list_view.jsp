@@ -1,8 +1,12 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+Date today = new Date();
+%>
     <%@taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core"%>
-    <link rel="stylesheet" type="text/css" href="./css/index.css?v=10">
-<link rel="stylesheet" type="text/css" href="./css/reservation_list.css?v=15">
+    <link rel="stylesheet" type="text/css" href="./css/index.css?v=<%=today%>">
+<link rel="stylesheet" type="text/css" href="./css/reservation_list.css?v=<%=today%>">
     <section class="sub">
         <p>모델 하우스 방문 예약 리스트</p>
         <div class="boards">모델 하우스 방문 예약한 정보를 한눈에 확인 하실 수 있습니다.</div>

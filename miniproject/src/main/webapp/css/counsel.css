@@ -42,6 +42,7 @@
 }
 .sub_ul > li:nth-child(even) {
     width: 600px;
+    text-align: left;
 }
 .sub_ul label {
     margin-right: 10px;

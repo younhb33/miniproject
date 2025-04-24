@@ -1,9 +1,13 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+Date today = new Date();
+%>    
     <%@taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-    <link rel="stylesheet" type="text/css" href="./css/index.css?v=10">
-<link rel="stylesheet" type="text/css" href="./css/md_board.css?v=11">
+    <link rel="stylesheet" type="text/css" href="./css/index.css?v=<%=today%>">
+<link rel="stylesheet" type="text/css" href="./css/md_board.css?v=<%=today%>">
     <section class="sub">
         <p>추천분양 정보 게시판</p>
         <div class="boards">이번주 신규 매물정보를 한눈에 확인하실 수 있습니다.</div>

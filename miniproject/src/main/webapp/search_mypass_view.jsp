@@ -1,7 +1,11 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <link rel="stylesheet" type="text/css" href="./css/index.css?v=1">
-<link rel="stylesheet" type="text/css" href="./css/search_myinfo.css?v=2">
+<%
+Date today = new Date();
+%>   
+<link rel="stylesheet" type="text/css" href="./css/index.css?v=<%=today%>">
+<link rel="stylesheet" type="text/css" href="./css/search_myinfo.css?v=<%=today%>">
 <section class="sub">
 <div>
 <ul>

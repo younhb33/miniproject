@@ -1,13 +1,17 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+Date today = new Date();
+%>
     <%@ taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core" %>
     
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="./css/index.css?v=10">
-  <link rel="stylesheet" type="text/css" href="./css/member_join.css?v=10">
+  <link rel="stylesheet" type="text/css" href="./css/index.css?v=<%=today%>">
+  <link rel="stylesheet" type="text/css" href="./css/member_join.css?v=<%=today%>">
 <style>
 .box {
    width: 800px;
@@ -16,7 +20,7 @@
    overflow: auto;
 }
 </style>
-<title>Insert title here</title>
+<title>회원가입</title>
 </head>
 <body>
 <!-- top(header/menu) -->

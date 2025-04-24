@@ -1,6 +1,9 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%
+Date today = new Date();
+%>
 <style>
 .box {
    width: 800px;
@@ -10,11 +13,14 @@
 }
 </style>
 	<form id="f" method="post" action="./join_ok.do">
+	<input type="hidden" name="mjoin" value="WEB"> <!-- 기본값 <!-- 1 : 자회사회원가입 / 2 : 카카오 -->
+	<input type="hidden" name="mcode" value="1">    <!-- 기본값 WEB, KAKAO, NAVER -->
+	
 		<p>이메일로 회원가입</p>
 		<div>
 			<a>이메일</a> <input type="text" id="email" name="email" placeholder=" 이메일 주소를 입력해주세요." autocomplete="none" style="width:400px; float:left;"> 
 			<input type="button" value="중복체크" class="mail_btn" onclick="check_email()">
-			<input type="hidden" id="emailck" name="email_ck" value="">
+			<input type="hidden" id="emailck" value=""> <!-- 중복체크 -->
 		</div>
 		<div>
 			<a>비밀번호</a> <input type="password" name="pw" placeholder=" 10~16자(영문,숫자,특수 문자 조합)로 입력해주세요." autocomplete="none">
@@ -46,4 +52,4 @@
 	
 	
 	
-<script src = "./joinok.js?v=3"></script>
+<script src = "./joinok.js?v=<%=today%>"></script>

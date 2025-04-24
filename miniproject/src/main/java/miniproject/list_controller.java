@@ -240,6 +240,8 @@ public class list_controller {
 		this.cpList = this.index_DAO.copyright_select(); //카피라이트
 	    m.addAttribute("cpList", cpList);
 	    
+	    
+	    
 	    if(loginDTO == null) {
 	    	m.addAttribute("msg", "alert('로그인 후 이용 가능합니다.'); location.href='index.do';");
 	    	return "load";

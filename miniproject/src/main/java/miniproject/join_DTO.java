@@ -9,5 +9,8 @@ import lombok.Data;
 @Repository("join_DTO")
 public class join_DTO {
 	int aidx;
-	String email,pw,mem_nm,tel,agree_all,agree_14,agree_terms,agree_privacy,agree_marketing,join_date;
+	String email,pw,mem_nm,tel,agree_all,agree_14,agree_terms,
+	agree_privacy,agree_marketing,join_date, mjoin,mcode;
+	String kakao_id;
+
 }

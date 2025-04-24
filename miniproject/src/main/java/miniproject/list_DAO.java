@@ -1,6 +1,8 @@
 package miniproject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,8 +86,27 @@ public class list_DAO implements list_mapper {
 	
 	@Override
 	public List<pre_visit_view_DTO> rsvlist_select(int midx){
-		return this.st.selectList("rsvlist_select",midx);
+		List<pre_visit_view_DTO> dtol =  this.st.selectList("rsvlist_select",midx);
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-ddHH:mm");
+		Date now = new Date();
+		
+		for(pre_visit_view_DTO rsvt : dtol) {
+			try {
+				String visitDateTime = rsvt.getVisit_date() + rsvt.getVisit_time(); // 예: 2025-04-05 + 13:00
+				Date visitTime = sdf.parse(visitDateTime);
+				
+				// 현재 시간이 예약 시간보다 크면 = 이미 지난 예약
+				if (now.after(visitTime)) {
+					this.st.delete("visit_delete", rsvt.getVisit_id());
+				}
+				
+			} catch (Exception e) {
+				System.out.println("자동 삭제 중 오류: " + e.getMessage());
+			}
+		}
+		// 삭제 반영된 최신 리스트 다시 가져오기
+		return this.st.selectList("rsvlist_select", midx);
 	}
 	@Override
 	public int visit_delete(int visit_id) {

@@ -1,7 +1,11 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core"%>
-<link rel="stylesheet" type="text/css" href="./css/index.css?v=7">
+<%
+Date today = new Date();
+%>
+<link rel="stylesheet" type="text/css" href="./css/index.css?v=<%=today%>">
 <section>
 	<div class="weekdays">
 		<p>
