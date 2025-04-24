@@ -38,7 +38,7 @@ Date today = new Date();
     <ul class="login_info" id="login_info" style="display: none;">
       <cr:choose>
         <cr:when test="${not empty sessionScope.dto and not empty sessionScope.dto.mem_nm}">
-          <li>${sessionScope.dto.mem_nm}님 <a href="./logout.jsp">[로그아웃]</a></li>
+          <li>${sessionScope.dto.mem_nm}님 <a href="javascript:kakao_logout()">[로그아웃]</a></li>
         </cr:when>
         <cr:otherwise>
           <li><a href="./login.do">로그인</a> / <a href="./member_join.do">회원가입</a></li>
@@ -75,3 +75,19 @@ Date today = new Date();
     }
  </script>
   <!--메뉴끝-->
+  
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.js"></script>
+<script>
+Kakao.init('6b3c21b9e92fa8db4ac60e57c8e9ab2a');	//키발급된 번호
+function kakao_logout(){
+	if(!Kakao.Auth.getAccessToken()){
+		location.href = './logout.jsp';
+	}
+	else{
+		Kakao.Auth.setAccessToken(undefined);
+		sessionStorage.clear();
+		localStorage.clear();
+		location.href = './logout.jsp';
+	}
+}
+</script>
